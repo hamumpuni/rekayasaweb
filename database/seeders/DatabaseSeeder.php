@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
         // 1. Ciptakan Akun Admin Abadi
         User::updateOrCreate(
             ['email' => 'admin@timas.com'],
-            ['name'     => 'Administrator',
-             'password' => bcrypt('password123'),
+            [
+                'name'     => 'Administrator',
+                'password' => bcrypt('password123'),
             ]
         );
 
