@@ -9,7 +9,7 @@
 
     <div class="row g-4">
         <div class="col-md-3">
-    <a href="{{ route('berita.index') }}" style="text-decoration: none;">
+    <a href="{{ route('admin.berita.index') }}" style="text-decoration: none;">
         <div class="card border-0 shadow-sm rounded-3" style="border-bottom: 4px solid #0f1d31 !important; transition: 0.3s;">
             <div class="card-body p-4 d-flex align-items-center justify-content-between">
                 <div>
