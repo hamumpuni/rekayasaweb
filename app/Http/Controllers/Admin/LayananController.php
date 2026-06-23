@@ -8,19 +8,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class LayananController extends Controller
-{    public function index()
-{
-    $layanan = Layanan::all();
-    return view('admin.layanan.index', compact('layanan'));
-}
-
-    // 2. CREATE (View): Form tambah layanan
-    public function create()
+{    
+    // 1. INDEX: Menampilkan halaman utama + data layanan
+    public function index()
     {
-        return view('admin.layanan.create');
+        $layanan = Layanan::all();
+        return view('admin.layanan.index', compact('layanan'));
     }
 
-    // 3. CREATE (Proses): Simpan layanan baru
+    // 2. REVISI CREATE: Dialihkan langsung ke index karena form berada di halaman index
+    public function create()
+    {
+        return redirect()->route('admin.layanan.index');
+    }
+
+    // 3. REVISI STORE: Simpan data layanan baru
     public function store(Request $request)
     {
         $request->validate([
@@ -39,28 +41,29 @@ class LayananController extends Controller
 
         Layanan::create($data);
 
-        return redirect()->route('layanan.index')->with('success', 'Layanan berhasil ditambahkan!');
+        // Perbaikan route redirect ke 'admin.layanan.index'
+        return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil ditambahkan!');
     }
 
-    // 4. EDIT (View): Form edit
+    // 4. EDIT: Form edit (jika Anda masih menggunakan file edit tersendiri)
     public function edit($id)
     {
         $layanan = Layanan::findOrFail($id);
         return view('admin.layanan.edit', compact('layanan'));
     }
 
-    // 5. UPDATE (Proses): Update data
+    // 5. REVISI UPDATE: Update data layanan
     public function update(Request $request, $id)
     {
         $layanan = Layanan::findOrFail($id);
         $data = $request->all();
 
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama
+            // Hapus gambar lama jika ada
             if (File::exists(public_path('images/layanan/' . $layanan->gambar))) {
                 File::delete(public_path('images/layanan/' . $layanan->gambar));
             }
-            // Upload baru
+            // Upload gambar baru
             $namaFile = time() . '_' . $request->gambar->getClientOriginalName();
             $request->gambar->move(public_path('images/layanan'), $namaFile);
             $data['gambar'] = $namaFile;
@@ -68,10 +71,11 @@ class LayananController extends Controller
 
         $layanan->update($data);
 
-        return redirect()->route('layanan.index')->with('success', 'Layanan berhasil diupdate!');
+        // Perbaikan route redirect ke 'admin.layanan.index'
+        return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil diupdate!');
     }
 
-    // 6. DELETE: Hapus data
+    // 6. REVISI DESTROY: Hapus data layanan
     public function destroy($id)
     {
         $layanan = Layanan::findOrFail($id);
@@ -82,6 +86,7 @@ class LayananController extends Controller
 
         $layanan->delete();
 
-        return redirect()->route('layanan.index')->with('success', 'Layanan berhasil dihapus!');
+        // Perbaikan route redirect ke 'admin.layanan.index'
+        return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil dihapus!');
     }
 }
