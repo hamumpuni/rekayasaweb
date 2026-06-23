@@ -47,7 +47,7 @@ class BeritaController extends Controller
 
         Berita::create($data);
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil ditambahkan!');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil ditambahkan!');
     }
 
     // 4. DELETE: Menghapus berita dan gambarnya
@@ -61,7 +61,7 @@ class BeritaController extends Controller
 
         $berita->delete();
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil dihapus!');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus!');
     }
 
     // 5. EXPORT PDF: Mengunduh laporan berita
@@ -96,6 +96,6 @@ public function update(Request $request, $id)
     }
 
     $berita->update($data);
-    return redirect()->route('berita.index')->with('success', 'Berita berhasil diupdate!');
+    return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diupdate!');
 }
 }

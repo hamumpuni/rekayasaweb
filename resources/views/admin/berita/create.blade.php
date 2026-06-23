@@ -20,7 +20,7 @@
         <div class="col-lg-8">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 style="font-family: 'Playfair Display', serif; font-weight: bold;">Tambah <span class="text-gold">Berita Baru</span></h3>
-                <a href="{{ route('berita.index') }}" class="btn btn-outline-secondary">Kembali</a>
+                <a href="{{ route('admin.berita.index') }}" class="btn btn-outline-secondary">Kembali</a>
             </div>
 
             <div class="card shadow-sm border-0" style="border-top: 4px solid #c8a96e;">
