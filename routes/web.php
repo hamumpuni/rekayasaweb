@@ -29,28 +29,26 @@ Route::get('/berita/{id}', [HomeController::class, 'showBerita']);
 
 
 // --- ROUTES UNTUK AUTENTIKASI ---
-    Route::get('/login', [AuthController::class, 'index'])->name('login');
-    Route::post('/login', [AuthController::class, 'authenticate']);
-
-
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 // --- ROUTES UNTUK ADMINISTRATOR ---
-Route::middleware('auth')->prefix('admin')->group(function () {
+// PERBAIKAN: Menambahkan ->name('admin.') agar semua resource di dalamnya memiliki prefix admin.
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     
     // Dashboard Admin
     Route::get('/dashboard', function () {
         return view('admin.dashboard'); 
-    })->name('admin.dashboard');
-    // Tambahkan di dalam route group admin
-Route::resource('profil', \App\Http\Controllers\Admin\ProfilController::class);
-Route::resource('layanan', \App\Http\Controllers\Admin\LayananController::class);
-Route::resource('galeri', \App\Http\Controllers\Admin\GaleriController::class);
+    })->name('dashboard'); // Karena sudah ada prefix nama 'admin.', di sini cukup 'dashboard' saja (otomatis jadi admin.dashboard)
 
-    // CRUD Berita
+    // Resource CRUD Admin
+    Route::resource('profil', \App\Http\Controllers\Admin\ProfilController::class);
+    Route::resource('layanan', \App\Http\Controllers\Admin\LayananController::class);
+    Route::resource('galeri', \App\Http\Controllers\Admin\GaleriController::class);
     Route::resource('berita', BeritaController::class);
     
-    // Tambahkan Rute Export PDF di sini (Penting!)
+    // Rute Export PDF Berita
     Route::get('/berita/export/pdf', [BeritaController::class, 'exportPdf'])->name('berita.exportPdf');
 });
