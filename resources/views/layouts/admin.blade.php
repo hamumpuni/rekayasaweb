@@ -96,14 +96,15 @@
             
             <p class="text-uppercase mt-4 mb-2 px-4" style="color: #6c757d; font-size: 0.75rem; letter-spacing: 1px;">Kelola Konten</p>
             
-            <a href="{{ route('berita.index') }}" class="{{ Request::is('admin/berita*') ? 'active' : '' }}">
+            <a href="{{ route('admin.berita.index') }}" class="{{ Request::is('admin/berita*') ? 'active' : '' }}">
                 <i class="bi bi-newspaper"></i> Artikel / Berita
             </a>
-            <a href="{{ route('profil.index') }}" class="{{ Request::is('admin/profil*') ? 'active' : '' }}">
+            <a href="{{ route('admin.profil.index') }}" class="{{ Request::is('admin/profil*') ? 'active' : '' }}">
                 <i class="bi bi-building"></i> Profil Perusahaan
-            <a href="{{ route('layanan.index') }}" class="{{ Request::is('admin/layanan*') ? 'active' : '' }}">
+            </a>
+            <a href="{{ route('admin.layanan.index') }}" class="{{ Request::is('admin/layanan*') ? 'active' : '' }}">
                  <i class="bi bi-tools"></i> Produk / Layanan</a>
-           <a href="{{ route('galeri.index') }}" class="{{ Request::is('admin/galeri*') ? 'active' : '' }}">
+           <a href="{{ route('admin.galeri.index') }}" class="{{ Request::is('admin/galeri*') ? 'active' : '' }}">
                  <i class="bi bi-images"></i> Galeri</a>
         </div>
     </div>
