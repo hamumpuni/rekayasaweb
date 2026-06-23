@@ -11,7 +11,7 @@
         <a href="{{ route('admin.berita.exportPdf') }}" class="btn btn-outline-dark me-2">
             <i class="bi bi-file-earmark-pdf"></i> Export PDF
         </a>
-        <a href="{{ route('berita.create') }}" class="btn btn-navy">
+        <a href="{{ route('admin.berita.create') }}" class="btn btn-navy">
             <i class="bi bi-plus-lg"></i> Tambah Berita
         </a>
     </div>
@@ -43,7 +43,9 @@
                         <td class="px-4 text-center fw-bold">{{ $key + 1 }}</td>
                         <td>
                             @if($item->gambar)
-                                <img src="{{ asset('images/' . $item->gambar) }}" style="width: 70px; height: 45px; object-fit: cover; border-radius: 4px;" class="shadow-sm">
+                                <img src="{{ asset('images/' . $item->gambar) }}"
+                                    style="width: 70px; height: 45px; object-fit: cover; border-radius: 4px;"
+                                    class="shadow-sm">
                             @else
                                 <span class="badge bg-light text-secondary border">No Image</span>
                             @endif
@@ -55,11 +57,14 @@
                         <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
                         <td class="px-4 text-center">
                             <div class="d-flex justify-content-center gap-1">
-                                <a href="{{ route('berita.edit', $item->id) }}" class="btn btn-sm btn-outline-primary border-0" title="Edit Berita">
+                                <a href="{{ route('admin.berita.edit', $item->id) }}"
+                                    class="btn btn-sm btn-outline-primary border-0" title="Edit Berita">
                                     <i class="bi bi-pencil fs-5"></i>
                                 </a>
-                                <form action="{{ route('berita.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
-                                    @csrf 
+                                <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST"
+                                    class="d-inline"
+                                    onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
+                                    @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger border-0" title="Hapus Berita">
                                         <i class="bi bi-trash fs-5"></i>
