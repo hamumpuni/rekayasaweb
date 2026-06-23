@@ -4,7 +4,7 @@
 <div class="card border-0 shadow-sm rounded-3 p-4" style="max-width: 650px; margin: auto;">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="fw-bold" style="color: #0f1d31;"><i class="bi bi-cloud-upload me-2"></i> Upload Foto Dokumentasi</h4>
-        <a href="{{ route('galeri.index') }}" class="btn btn-sm btn-light border">
+        <a href="{{ route('admin.galeri.index') }}" class="btn btn-sm btn-light border">
             <i class="bi bi-arrow-left me-1"></i> Kembali
         </a>
     </div>

@@ -40,7 +40,7 @@ class GaleriController extends Controller
 
         Galeri::create($data);
 
-        return redirect()->route('galeri.index')->with('success', 'Foto berhasil ditambahkan ke Galeri!');
+        return redirect()->route('admin.galeri.index')->with('success', 'Foto berhasil ditambahkan ke Galeri!');
     }
 
     // 4. Form Edit Judul/Foto
@@ -67,7 +67,7 @@ class GaleriController extends Controller
 
         $galeri->update($data);
 
-        return redirect()->route('galeri.index')->with('success', 'Data Galeri berhasil diperbarui!');
+        return redirect()->route('admin.galeri.index')->with('success', 'Data Galeri berhasil diperbarui!');
     }
 
     // 6. Proses Hapus Foto
@@ -81,6 +81,6 @@ class GaleriController extends Controller
 
         $galeri->delete();
 
-        return redirect()->route('galeri.index')->with('success', 'Foto berhasil dihapus!');
+        return redirect()->route('admin.galeri.index')->with('success', 'Foto berhasil dihapus!');
     }
 }

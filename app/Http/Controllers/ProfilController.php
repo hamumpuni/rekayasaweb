@@ -45,6 +45,6 @@ class ProfilController extends Controller
             $data
         );
 
-        return redirect()->route('profil.index')->with('success', 'Profil Perusahaan berhasil diperbarui!');
+        return redirect()->route('admin.profil.index')->with('success', 'Profil Perusahaan berhasil diperbarui!');
     }
 }
