@@ -7,9 +7,9 @@
             <h3 class="fw-bold" style="color: #0f1d31;"><i class="bi bi-tools me-2"></i> Manajemen Layanan (EPCIC)</h3>
             <p class="text-muted mb-0">Kelola informasi 5 pilar keahlian utama KSO TIMAS-PRATIWI</p>
         </div>
-        <a href="{{ route('layanan.create') }}" class="btn text-gold fw-bold py-2 px-3" style="background-color: #0f1d31; color: #d4af37;">
+        <button type="button" class="btn fw-bold py-2 px-3 text-white" style="background-color: #0f1d31;" data-bs-toggle="modal" data-bs-target="#modalTambahLayanan">
             <i class="bi bi-plus-circle me-2"></i> Tambah Layanan Baru
-        </a>
+        </button>
     </div>
 
     @if(session('success'))
@@ -47,11 +47,11 @@
                         <td class="text-muted" style="font-size: 0.95rem;">{{ $item->deskripsi }}</td>
                         <td class="text-center">
                             <div class="btn-group" role="group">
-                                <a href="{{ route('layanan.edit', $item->id) }}" class="btn btn-sm btn-outline-primary fw-bold px-3" title="Edit Data">
+                                <a href="{{ route('admin.layanan.edit', $item->id) }}" class="btn btn-sm btn-outline-primary fw-bold px-3" title="Edit Data">
                                     <i class="bi bi-pencil-square me-1"></i> Edit
                                 </a>
                                 
-                                <form action="{{ route('layanan.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus layanan {{ $item->nama_layanan }}?');">
+                                <form action="{{ route('admin.layanan.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus layanan {{ $item->nama_layanan }}?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus Data">
@@ -71,6 +71,41 @@
                 @endforelse
             </tbody>
         </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalTambahLayanan" tabindex="-1" aria-labelledby="modalTambahLayananLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTambahLayananLabel"><i class="bi bi-plus-circle-fill me-2"></i> Tambah Layanan Baru</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.layanan.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nama_layanan" class="form-label fw-bold">Nama Layanan</label>
+                        <input type="text" class="form-control" id="nama_layanan" name="nama_layanan" required placeholder="Masukkan nama layanan...">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="deskripsi" class="form-label fw-bold">Deskripsi Lengkap</label>
+                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" required placeholder="Tuliskan penjelasan detail mengenai layanan..."></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="gambar" class="form-label fw-bold">Gambar Preview / Komponen</label>
+                        <input class="form-control" type="file" id="gambar" name="gambar" accept="image/*" required>
+                        <small class="text-muted">Format yang didukung: jpeg, png, jpg. Maksimal berkas 2MB.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn text-white" style="background-color: #0f1d31;">Simpan Layanan</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 @endsection
