@@ -9,25 +9,23 @@
     
     <style>
         body { 
-            background-color: #f4f6f9; /* Warna abu-abu sangat terang untuk area konten */
+            background-color: #f4f6f9;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
         }
-        
-        /* --- SIDEBAR STYLING --- */
         .sidebar {
             width: 260px;
             height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            background-color: #0f1d31; /* Tema Navy */
+            background-color: #0f1d31;
             padding-top: 20px;
             box-shadow: 4px 0 10px rgba(0,0,0,0.1);
             z-index: 1000;
         }
         .sidebar-brand {
-            color: #c8a96e; /* Tema Gold */
+            color: #c8a96e;
             font-family: 'Playfair Display', serif;
             font-size: 1.5rem;
             font-weight: bold;
@@ -54,8 +52,6 @@
             font-weight: bold;
             border-left: 5px solid #ffffff;
         }
-
-        /* --- MAIN CONTENT STYLING --- */
         .main-wrapper {
             margin-left: 260px;
             min-height: 100vh;
@@ -75,8 +71,6 @@
             padding: 30px;
             flex: 1;
         }
-        
-        /* Tombol & Elemen Bawaan */
         .text-gold { color: #c8a96e; }
         .bg-navy { background-color: #0f1d31; color: #fff; }
         .btn-navy { background-color: #0f1d31; color: #c8a96e; }
@@ -103,9 +97,11 @@
                 <i class="bi bi-building"></i> Profil Perusahaan
             </a>
             <a href="{{ route('admin.layanan.index') }}" class="{{ Request::is('admin/layanan*') ? 'active' : '' }}">
-                 <i class="bi bi-tools"></i> Produk / Layanan</a>
-           <a href="{{ route('admin.galeri.index') }}" class="{{ Request::is('admin/galeri*') ? 'active' : '' }}">
-                 <i class="bi bi-images"></i> Galeri</a>
+                <i class="bi bi-tools"></i> Produk / Layanan
+            </a>
+            <a href="{{ route('admin.galeri.index') }}" class="{{ Request::is('admin/galeri*') ? 'active' : '' }}">
+                <i class="bi bi-images"></i> Galeri
+            </a>
         </div>
     </div>
 
@@ -120,7 +116,6 @@
                     <i class="bi bi-person-circle fs-5 me-1 text-gold"></i> 
                     {{ Auth::user()->name }}
                 </span>
-                
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Yakin ingin keluar dari sistem?');">

@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form action="{{ route('profil.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.berita.exportPdf') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="row">

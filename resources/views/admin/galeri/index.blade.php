@@ -4,10 +4,12 @@
 <div class="card border-0 shadow-sm rounded-3 p-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h3 class="fw-bold" style="color: #0f1d31;"><i class="bi bi-images me-2"></i> Galeri Dokumentasi</h3>
+            <h3 class="fw-bold" style="color: #0f1d31;">
+                <i class="bi bi-images me-2"></i> Galeri Dokumentasi
+            </h3>
             <p class="text-muted mb-0">Kelola arsip foto proyek, kegiatan lapangan, dan sertifikasi perusahaan</p>
         </div>
-        <a href="{{ route('galeri.create') }}" class="btn text-gold fw-bold py-2 px-3" style="background-color: #0f1d31; color: #d4af37;">
+        <a href="{{ route('admin.galeri.create') }}" class="btn fw-bold py-2 px-3" style="background-color: #0f1d31; color: #c8a96e;">
             <i class="bi bi-plus-circle me-2"></i> Tambah Foto Baru
         </a>
     </div>
@@ -36,18 +38,22 @@
                         <td class="text-center">{{ $index + 1 }}</td>
                         <td>
                             <a href="{{ asset('images/galeri/' . $item->gambar) }}" target="_blank">
-                                <img src="{{ asset('images/galeri/' . $item->gambar) }}" alt="" class="img-thumbnail rounded shadow-sm" style="width: 120px; height: 80px; object-fit: cover;">
+                                <img src="{{ asset('images/galeri/' . $item->gambar) }}" alt="{{ $item->judul }}"
+                                    class="img-thumbnail rounded shadow-sm"
+                                    style="width: 120px; height: 80px; object-fit: cover;">
                             </a>
                         </td>
                         <td class="fw-bold" style="color: #0f1d31;">{{ $item->judul }}</td>
                         <td>{{ $item->created_at->format('d M Y') }}</td>
                         <td class="text-center">
                             <div class="btn-group" role="group">
-                                <a href="{{ route('galeri.edit', $item->id) }}" class="btn btn-sm btn-outline-primary" title="Edit Data">
+                                <a href="{{ route('admin.galeri.edit', $item->id) }}"
+                                    class="btn btn-sm btn-outline-primary" title="Edit Data">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </a>
-
-                                <form action="{{ route('galeri.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus foto dokumentasi ini?');">
+                                <form action="{{ route('admin.galeri.destroy', $item->id) }}" method="POST"
+                                    class="d-inline"
+                                    onsubmit="return confirm('Yakin ingin menghapus foto dokumentasi ini?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus Data">

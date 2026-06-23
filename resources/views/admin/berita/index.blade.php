@@ -8,7 +8,7 @@
         Manajemen <span class="text-gold">Berita</span>
     </h2>
     <div>
-        <a href="{{ route('berita.exportPdf') }}" class="btn btn-outline-dark me-2">
+        <a href="{{ route('admin.berita.exportPdf') }}" class="btn btn-outline-dark me-2">
             <i class="bi bi-file-earmark-pdf"></i> Export PDF
         </a>
         <a href="{{ route('berita.create') }}" class="btn btn-navy">
