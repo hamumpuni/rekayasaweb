@@ -35,25 +35,35 @@
             <tbody>
                 @forelse($galeri as $index => $item)
                     <tr>
-                        <td class="text-center">{{ $index + 1 }}</td>
+                        <td class="text-center fw-bold">{{ $index + 1 }}</td>
                         <td>
-                            <a href="{{ asset('images/galeri/' . $item->gambar) }}" target="_blank">
-                                <img src="{{ asset('images/galeri/' . $item->gambar) }}" alt="{{ $item->judul }}"
-                                    class="img-thumbnail rounded shadow-sm"
-                                    style="width: 120px; height: 80px; object-fit: cover;">
-                            </a>
+                            @if($item->gambar)
+                                <a href="{{ asset('images/galeri/' . $item->gambar) }}" target="_blank">
+                                    <img src="{{ asset('images/galeri/' . $item->gambar) }}" alt="{{ $item->judul }}" class="img-thumbnail rounded shadow-sm" style="width: 120px; height: 80px; object-fit: cover;">
+                                </a>
+                            @else
+                                <div class="p-2 bg-light text-secondary text-center rounded border" style="width: 120px; height: 80px; font-size: 0.8rem; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bi bi-image me-1"></i> Kosong
+                                </div>
+                            @endif
                         </td>
                         <td class="fw-bold" style="color: #0f1d31;">{{ $item->judul }}</td>
                         <td>{{ $item->created_at->format('d M Y') }}</td>
                         <td class="text-center">
                             <div class="btn-group" role="group">
-                                <a href="{{ route('admin.galeri.edit', $item->id) }}"
-                                    class="btn btn-sm btn-outline-primary" title="Edit Data">
+                                {{-- PERBAIKAN: Mengubah link edit menjadi pemicu Modal dengan membawa data asset --}}
+                                <button type="button" 
+                                        class="btn btn-sm btn-outline-primary fw-bold btn-edit-galeri" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#modalEditGaleri"
+                                        data-id="{{ $item->id }}"
+                                        data-judul="{{ $item->judul }}"
+                                        data-gambar="{{ $item->gambar ? asset('images/galeri/' . $item->gambar) : '' }}"
+                                        title="Edit Data">
                                     <i class="bi bi-pencil-square"></i> Edit
-                                </a>
-                                <form action="{{ route('admin.galeri.destroy', $item->id) }}" method="POST"
-                                    class="d-inline"
-                                    onsubmit="return confirm('Yakin ingin menghapus foto dokumentasi ini?');">
+                                </button>
+
+                                <form action="{{ route('admin.galeri.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus foto dokumentasi ini?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus Data">
@@ -66,8 +76,7 @@
                 @empty
                     <tr>
                         <td colspan="5" class="text-center py-5 text-muted">
-                            <i class="bi bi-camera fs-1 d-block mb-2 text-secondary"></i>
-                            Belum ada foto dokumentasi. Silakan klik tombol <span class="fw-bold">"Tambah Foto Baru"</span> di atas.
+                            <i class="bi bi-camera fs-1 d-block mb-2 text-secondary"></i> Belum ada foto dokumentasi. Silakan klik tombol <span class="fw-bold">"Tambah Foto Baru"</span> di atas.
                         </td>
                     </tr>
                 @endforelse
@@ -75,4 +84,77 @@
         </table>
     </div>
 </div>
+
+{{-- ============================= --}}
+{{-- MODAL EDIT GALERI --}}
+{{-- ============================= --}}
+<div class="modal fade" id="modalEditGaleri" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" style="color: #0f1d31;"><i class="bi bi-pencil-square me-2"></i> Edit Foto Galeri</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formEditGaleri" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit_judul" class="form-label fw-bold">Judul / Keterangan Foto</label>
+                        <input type="text" class="form-control" id="edit_judul" name="judul" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold d-block">Foto Saat Ini</label>
+                        <img id="edit_preview_gambar" src="" alt="Preview" class="img-thumbnail mb-2 shadow-sm d-none" style="max-width: 180px; max-height: 120px; object-fit: cover;">
+                        <p id="edit_no_gambar" class="text-muted small d-none">Belum ada gambar aktual.</p>
+                        
+                        <label for="edit_gambar" class="form-label fw-bold d-block mt-3">Ganti Foto Baru</label>
+                        <input class="form-control" type="file" id="edit_gambar" name="gambar" accept="image/*">
+                        <small class="text-muted">Biarkan kosong jika tidak ingin mengganti file gambar lama.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn text-white" style="background-color: #0f1d31;">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{-- SCRIPT JAVASCRIPT TRANSFER DATA --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editButtons = document.querySelectorAll('.btn-edit-galeri');
+        const formEdit = document.getElementById('formEditGaleri');
+        const inputJudul = document.getElementById('edit_judul');
+        const previewGambar = document.getElementById('edit_preview_gambar');
+        const textNoGambar = document.getElementById('edit_no_gambar');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const judul = this.getAttribute('data-judul');
+                const gambarUrl = this.getAttribute('data-gambar');
+
+                // Set rute update action secara dinamis menuju GaleriController@update
+                formEdit.action = `/admin/galeri/${id}`;
+
+                // Set nilai text input judul
+                inputJudul.value = judul;
+
+                // Logika menampilkan preview foto lama
+                if (gambarUrl) {
+                    previewGambar.src = gambarUrl;
+                    previewGambar.classList.remove('d-none');
+                    textNoGambar.classList.add('d-none');
+                } else {
+                    previewGambar.src = '';
+                    previewGambar.classList.add('d-none');
+                    textNoGambar.classList.remove('d-none');
+                }
+            });
+        });
+    });
+</script>
 @endsection

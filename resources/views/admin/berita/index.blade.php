@@ -7,10 +7,14 @@
     <h2 style="font-family: 'Playfair Display', serif; font-weight: bold; color: #0f1d31;">
         Manajemen <span class="text-gold">Berita</span>
     </h2>
-    <div>
-        <a href="{{ route('admin.berita.exportPdf') }}" class="btn btn-outline-dark me-2">
-            <i class="bi bi-file-earmark-pdf"></i> Export PDF
-        </a>
+    <div class="d-flex align-items-center gap-2">
+        <form action="{{ route('admin.berita.exportPdf') }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-outline-dark">
+                <i class="bi bi-file-earmark-pdf"></i> Export PDF
+            </button>
+        </form>
+
         <a href="{{ route('admin.berita.create') }}" class="btn btn-navy">
             <i class="bi bi-plus-lg"></i> Tambah Berita
         </a>
@@ -44,8 +48,8 @@
                         <td>
                             @if($item->gambar)
                                 <img src="{{ asset('images/' . $item->gambar) }}"
-                                    style="width: 70px; height: 45px; object-fit: cover; border-radius: 4px;"
-                                    class="shadow-sm">
+                                     style="width: 70px; height: 45px; object-fit: cover; border-radius: 4px;"
+                                     class="shadow-sm" alt="Gambar Berita">
                             @else
                                 <span class="badge bg-light text-secondary border">No Image</span>
                             @endif
@@ -58,12 +62,12 @@
                         <td class="px-4 text-center">
                             <div class="d-flex justify-content-center gap-1">
                                 <a href="{{ route('admin.berita.edit', $item->id) }}"
-                                    class="btn btn-sm btn-outline-primary border-0" title="Edit Berita">
+                                   class="btn btn-sm btn-outline-primary border-0" title="Edit Berita">
                                     <i class="bi bi-pencil fs-5"></i>
                                 </a>
                                 <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST"
-                                    class="d-inline"
-                                    onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
+                                      class="d-inline"
+                                      onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger border-0" title="Hapus Berita">
