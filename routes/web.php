@@ -11,44 +11,46 @@ Route::get('/kontak', function () { return view('pages.kontak'); });
 
 Route::get('/tentang', function () {
     $layanan = \App\Models\Layanan::all();
-    $berita = \App\Models\Berita::all();
+    $berita  = \App\Models\Berita::all();
     return view('pages.tentang', compact('layanan', 'berita'));
 });
 
 Route::get('/layanan', function () {
-    $layanan = \App\Models\Layanan::all(); 
+    $layanan = \App\Models\Layanan::all();
     return view('pages.layanan', compact('layanan'));
 });
 
 // Route Berita Depan
 Route::get('/berita', function () {
-    $semua_berita = \App\Models\Berita::orderBy('tanggal', 'desc')->get(); 
+    $semua_berita = \App\Models\Berita::orderBy('tanggal', 'desc')->get();
     return view('pages.berita', compact('semua_berita'));
 });
 Route::get('/berita/{id}', [HomeController::class, 'showBerita']);
 
 
 // --- ROUTES UNTUK AUTENTIKASI ---
-Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::get('/login',  [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
 
 
 // --- ROUTES UNTUK ADMINISTRATOR ---
-// PERBAIKAN: Menambahkan ->name('admin.') agar semua resource di dalamnya memiliki prefix admin.
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    
+
     // Dashboard Admin
     Route::get('/dashboard', function () {
-        return view('admin.dashboard'); 
-    })->name('dashboard'); // Karena sudah ada prefix nama 'admin.', di sini cukup 'dashboard' saja (otomatis jadi admin.dashboard)
+        return view('admin.dashboard');
+    })->name('dashboard');
 
     // Resource CRUD Admin
-    Route::resource('profil', \App\Http\Controllers\Admin\ProfilController::class);
-    Route::resource('layanan', \App\Http\Controllers\Admin\LayananController::class);
-    Route::resource('galeri', \App\Http\Controllers\Admin\GaleriController::class);
-    Route::resource('berita', BeritaController::class);
-    
-    // Rute Export PDF Berita
+    Route::resource('profil',   \App\Http\Controllers\Admin\ProfilController::class);
+    Route::resource('layanan',  \App\Http\Controllers\Admin\LayananController::class);
+    Route::resource('galeri',   \App\Http\Controllers\Admin\GaleriController::class);
+
+    // ⚠️ Export PDF HARUS di atas Route::resource('berita')
+    // agar tidak tertangkap sebagai {berita} parameter
     Route::get('/berita/export/pdf', [BeritaController::class, 'exportPdf'])->name('berita.exportPdf');
+
+    Route::resource('berita', BeritaController::class);
+
 });
